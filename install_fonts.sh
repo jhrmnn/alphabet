@@ -22,6 +22,25 @@ fetch "ofl/frankruhllibre/FrankRuhlLibre%5Bwght%5D.ttf" FrankRuhlLibre.ttf
 fetch ofl/notosansphoenician/NotoSansPhoenician-Regular.ttf NotoSansPhoenician-Regular.ttf
 fetch ofl/notosansolditalic/NotoSansOldItalic-Regular.ttf   NotoSansOldItalic-Regular.ttf
 
+# Brill Epichoric — archaic/epichoric Greek letterforms for the Greek column.
+# Not on google/fonts; it ships as a zip from Brill under a *non-commercial* EULA
+# (https://brill.com/page/510272). We pull the package and extract just the .otf.
+if [ -f "$DEST/BrillEpichoric.otf" ]; then
+  echo "  BrillEpichoric.otf (already present)"
+elif ! command -v unzip >/dev/null 2>&1; then
+  echo "  ! 'unzip' not found — skipping Brill Epichoric; the Greek column falls back to Cardo."
+else
+  echo "Fetching Brill Epichoric (non-commercial EULA — see brill.com/page/510272) ..."
+  TMPZIP="$(mktemp -t epichoric.XXXXXX.zip)"
+  if curl -fsSL -o "$TMPZIP" "https://brill.com/fileasset/downloads_static/static_epichoric_fontpackage.zip"; then
+    OTF="$(unzip -Z1 "$TMPZIP" | grep -m1 '\.otf$')"
+    unzip -p "$TMPZIP" "$OTF" > "$DEST/BrillEpichoric.otf" && echo "  BrillEpichoric.otf"
+  else
+    echo "  ! could not download Brill Epichoric; the Greek column falls back to Cardo."
+  fi
+  rm -f "$TMPZIP"
+fi
+
 if command -v fc-cache >/dev/null 2>&1; then
   fc-cache -f "$DEST" >/dev/null 2>&1 || true
   echo "Font cache refreshed."
