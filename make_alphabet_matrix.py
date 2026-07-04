@@ -165,8 +165,25 @@ def src_cell(s):
     return ('<td class="src%s"><span class="ps">%s</span><span class="hb">%s</span></td>'
             % (ghost, _h.escape(s["ps"]), hebline))
 
+# Western ("red") Greek letterforms, matching the "Western Greek" row of
+# Wikipedia's Etruscan-alphabet chart. This is still recognizably Greek —
+# plain Γ Δ Λ Ρ Υ — NOT the further-evolved Old Italic forms (C D L V), which
+# belong to the Etruscan column. Brill Epichoric's *default* glyph already
+# matches the Western form for almost every letter; only these three need the
+# local variant, picked from the font's Private-Use palette.
+WEST = {
+    "Ζ": 0xE1C1,  # zeta as a vertical I-beam (not the classical Z)
+    "Η": 0xE205,  # heta as a barred box 日 (the Western /h/ letter)
+    "Θ": 0xE281,  # theta as a crossed circle ⊗ (not the barred ⊖)
+    "Σ": 0xE593,  # sigma as a clean three-bar Σ (not Brill's zigzag default)
+}
+def west(g):
+    return chr(WEST[g]) if g in WEST else g
+
 def cell(c):
     g,script,s,tone,flag = c
+    if script=="greek":
+        g = west(g)
     if flag=="empty":
         return '<td class="stage"><span class="empty">—</span></td>'
     if flag=="notyet":
