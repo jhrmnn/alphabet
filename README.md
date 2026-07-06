@@ -29,6 +29,14 @@ string; layout is plain HTML `<table>`.
   `install_fonts.sh` downloads Brill's own package and extracts the `.otf`. If
   it is missing, the Greek column falls back to Cardo. The right-most Modern
   Greek column stays on Cardo either way.
+- **Aegean** (George Douros, public domain) — used for the **Etruscan** (Old
+  Italic) column. Its letterforms follow actual Etruscan inscriptions more
+  faithfully than Noto Sans Old Italic — e.g. it draws tau as a plain `T`
+  rather than the cross-like `✝` that Noto's reference glyph uses. It isn't on
+  google/fonts; it ships in the Debian/Ubuntu `fonts-ancient-scripts` package,
+  so `install_fonts.sh` pulls that package and extracts the single `.ttf`
+  (or install it yourself from [dn-works.com/ufas](https://dn-works.com/ufas/)).
+  If it is missing, the Etruscan column falls back to Noto Sans Old Italic.
 
 ## Run
 

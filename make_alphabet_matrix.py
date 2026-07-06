@@ -272,7 +272,7 @@ tbody tr:nth-child(even) td { background:#F5F3EC; }
 .glyph { display:block; height:3.7mm; line-height:3.7mm; font-size:10.5pt; }
 .g-phoen{font-family:"Noto Sans Phoenician";direction:ltr;}
 .g-greek{font-family:"Brill Epichoric","Cardo",serif;}
-.g-etrus{font-family:"Noto Sans Old Italic";direction:ltr;}
+.g-etrus{font-family:"Aegean","Noto Sans Old Italic";direction:ltr;}
 .g-latin{font-family:"Cinzel",serif;font-weight:600;font-size:10pt;}
 .g-latin.ny{color:#b7b1a1;font-weight:400;}
 .ghost .glyph{opacity:.36;} .ghost .sound{opacity:.55;}
