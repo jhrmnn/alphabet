@@ -22,6 +22,21 @@ string; layout is plain HTML `<table>`.
   The exotic scripts (Phoenician `𐤀`, Old Italic/Etruscan `𐌀`, archaic Greek
   digamma/koppa/san `Ϝ Ϙ Ϻ`, Hebrew with niqqud) will render as tofu boxes
   without these.
+- **Brill Epichoric** — used for the archaic **Greek** column, whose
+  epichoric letterforms are historically truer to ~800 BCE than the classical
+  Cardo shapes. It is **not** OFL: Brill offers it free under a *non-commercial*
+  EULA ([brill.com/page/510272](https://brill.com/page/510272)), so
+  `install_fonts.sh` downloads Brill's own package and extracts the `.otf`. If
+  it is missing, the Greek column falls back to Cardo. The right-most Modern
+  Greek column stays on Cardo either way.
+- **Aegean** (George Douros, public domain) — used for the **Etruscan** (Old
+  Italic) column. Its letterforms follow actual Etruscan inscriptions more
+  faithfully than Noto Sans Old Italic — e.g. it draws tau as a plain `T`
+  rather than the cross-like `✝` that Noto's reference glyph uses. It isn't on
+  google/fonts; it ships in the Debian/Ubuntu `fonts-ancient-scripts` package,
+  so `install_fonts.sh` pulls that package and extracts the single `.ttf`
+  (or install it yourself from [dn-works.com/ufas](https://dn-works.com/ufas/)).
+  If it is missing, the Etruscan column falls back to Noto Sans Old Italic.
 
 ## Run
 

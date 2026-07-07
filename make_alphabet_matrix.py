@@ -165,8 +165,43 @@ def src_cell(s):
     return ('<td class="src%s"><span class="ps">%s</span><span class="hb">%s</span></td>'
             % (ghost, _h.escape(s["ps"]), hebline))
 
+# Western ("red"/Euboean) Greek letterforms for the Greek column, hand-picked
+# from Brill Epichoric's Private-Use variant palette against the "Western Greek"
+# row of Wikipedia's Etruscan-alphabet chart. Picks are given as worksheet
+# variant numbers: "def" = Brill's default glyph (the plain Greek letter);
+# an integer N = the Nth glyph in that letter's variant run. A few letters had
+# more than one Western form in use, listed here as two picks and rendered side
+# by side. Xi is voided — it had no place in the Western ("red") alphabet.
+_PUA0 = {  # first Private-Use codepoint of each letter's variant run
+ "Α":0xE000,"Β":0xE040,"Γ":0xE080,"Δ":0xE0C0,"Ε":0xE100,"Ϝ":0xE140,"Ζ":0xE1C0,
+ "Η":0xE200,"Θ":0xE280,"Ι":0xE2C0,"Κ":0xE300,"Λ":0xE340,"Μ":0xE380,"Ν":0xE3C0,
+ "Ξ":0xE400,"Ο":0xE440,"Π":0xE480,"Ϻ":0xE4C0,"Ϙ":0xE500,"Ρ":0xE540,"Σ":0xE580,
+ "Τ":0xE600,"Υ":0xE640,"Φ":0xE680,"Χ":0xE6C0,"Ψ":0xE700,"Ω":0xE740,
+}
+_PICKS = {
+ "Α":[1],      "Β":[1],      "Γ":[3,16],   "Δ":["def",9],
+ "Ε":[4],      "Ϝ":[1,2],    "Ζ":[1],      "Η":[6],
+ "Θ":[1],      "Ι":["def"],  "Κ":[2],      "Λ":[1,6],
+ "Μ":[9],      "Ν":[5],      "Ξ":None,     "Ο":["def"],
+ "Π":["def"],  "Ϻ":["def"],  "Ϙ":["def"],  "Ρ":["def",3],
+ "Σ":[1,6],    "Τ":["def"],  "Υ":[2,7],    "Φ":["def"],
+ "Χ":["def"],  "Ψ":["def"],  "Ω":["def"],
+}
+_THIN = " "  # gap between the two forms of a double-variant letter
+def west(g):
+    if g not in _PICKS:
+        return g
+    picks = _PICKS[g]
+    if picks is None:
+        return ""  # voided
+    return _THIN.join(g if p == "def" else chr(_PUA0[g] + p - 1) for p in picks)
+
 def cell(c):
     g,script,s,tone,flag = c
+    if script=="greek":
+        g = west(g)
+        if g == "":   # voided (Western Greek had no xi)
+            return '<td class="stage"><span class="empty">—</span></td>'
     if flag=="empty":
         return '<td class="stage"><span class="empty">—</span></td>'
     if flag=="notyet":
@@ -236,8 +271,8 @@ tbody tr:nth-child(even) td { background:#F5F3EC; }
 .stage { width:13.5mm; }
 .glyph { display:block; height:3.7mm; line-height:3.7mm; font-size:10.5pt; }
 .g-phoen{font-family:"Noto Sans Phoenician";direction:ltr;}
-.g-greek{font-family:"Cardo",serif;}
-.g-etrus{font-family:"Noto Sans Old Italic";direction:ltr;}
+.g-greek{font-family:"Brill Epichoric","Cardo",serif;}
+.g-etrus{font-family:"Aegean","Noto Sans Old Italic";direction:ltr;}
 .g-latin{font-family:"Cinzel",serif;font-weight:600;font-size:10pt;}
 .g-latin.ny{color:#b7b1a1;font-weight:400;}
 .ghost .glyph{opacity:.36;} .ghost .sound{opacity:.55;}
